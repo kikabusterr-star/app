@@ -18,13 +18,13 @@ public class WeaponController : MonoBehaviour
     private AudioSource audioSrc;
     private bool reloading;
 
-    void Awake()
+    private void Awake()
     {
         audioSrc = GetComponent<AudioSource>();
         ammoInMag = magSize;
     }
 
-    void Update()
+    private void Update()
     {
         if (reloading)
         {
@@ -43,11 +43,15 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         ammoInMag--;
-        muzzleFlash?.Play();
-        if (shotSfx)
+        if (muzzleFlash != null)
+        {
+            muzzleFlash.Play();
+        }
+
+        if (shotSfx != null)
         {
             audioSrc.PlayOneShot(shotSfx);
         }
@@ -61,10 +65,10 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    System.Collections.IEnumerator Reload()
+    private System.Collections.IEnumerator Reload()
     {
         reloading = true;
-        if (reloadSfx)
+        if (reloadSfx != null)
         {
             audioSrc.PlayOneShot(reloadSfx);
         }

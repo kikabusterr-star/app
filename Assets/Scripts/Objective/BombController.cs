@@ -17,12 +17,12 @@ public class BombController : MonoBehaviour
     private AudioSource audioSrc;
     private bool planting;
 
-    void Awake()
+    private void Awake()
     {
         audioSrc = GetComponent<AudioSource>();
     }
 
-    void Update()
+    private void Update()
     {
         if (planted && Time.time - plantedAt >= fuseTime)
         {
@@ -60,28 +60,28 @@ public class BombController : MonoBehaviour
         plantedAt = Time.time;
         planting = false;
 
-        if (plantSfx)
+        if (plantSfx != null)
         {
             audioSrc.PlayOneShot(plantSfx);
         }
 
-        if (beepSfx)
+        if (beepSfx != null)
         {
             audioSrc.PlayOneShot(beepSfx);
         }
     }
 
-    void Explode()
+    private void Explode()
     {
-        if (explodeSfx)
+        if (explodeSfx != null)
         {
             audioSrc.PlayOneShot(explodeSfx);
         }
 
-        Collider[] cols = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (var c in cols)
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (var col in hits)
         {
-            if (c.TryGetComponent<Health>(out var hp))
+            if (col.TryGetComponent<Health>(out var hp))
             {
                 hp.TakeDamage(explosionDamage);
             }

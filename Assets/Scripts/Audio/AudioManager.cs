@@ -1,20 +1,28 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour
 {
-    private AudioSource source;
+    public static AudioManager Instance { get; private set; }
+    private AudioSource audioSource;
 
-    void Awake()
+    private void Awake()
     {
-        source = GetComponent<AudioSource>();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    public void PlayOneShot(AudioClip clip, float volume = 1f)
+    public void PlayOneShot(AudioClip clip)
     {
         if (clip != null)
         {
-            source.PlayOneShot(clip, volume);
+            audioSource.PlayOneShot(clip);
         }
     }
 }

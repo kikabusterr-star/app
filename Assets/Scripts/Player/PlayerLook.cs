@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
-    public float sens = 120f;
+    [Tooltip("Mouse sensitivity")] public float sensitivity = 120f;
     public Transform cam;
 
-    private float xRot = 0f;
+    private float xRotation;
 
-    void Start()
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void Update()
+    private void Update()
     {
-        float mx = Input.GetAxis("Mouse X") * sens * Time.deltaTime;
-        float my = Input.GetAxis("Mouse Y") * sens * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
-        xRot -= my;
-        xRot = Mathf.Clamp(xRot, -85f, 85f);
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -85f, 85f);
 
-        cam.localRotation = Quaternion.Euler(xRot, 0f, 0f);
-        transform.Rotate(Vector3.up * mx);
+        cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * mouseX);
     }
 }

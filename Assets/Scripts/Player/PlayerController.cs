@@ -3,36 +3,37 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
     public float moveSpeed = 6f;
     public float jumpForce = 6f;
     public float gravity = -20f;
 
-    private CharacterController cc;
+    private CharacterController controller;
     private Vector3 velocity;
 
-    void Awake()
+    private void Awake()
     {
-        cc = GetComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
     }
 
-    void Update()
+    private void Update()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         Vector3 move = transform.right * h + transform.forward * v;
-        cc.Move(move * moveSpeed * Time.deltaTime);
+        controller.Move(move * moveSpeed * Time.deltaTime);
 
-        if (cc.isGrounded && velocity.y < 0f)
+        if (controller.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        if (Input.GetButtonDown("Jump") && cc.isGrounded)
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
         {
             velocity.y = jumpForce;
         }
 
         velocity.y += gravity * Time.deltaTime;
-        cc.Move(velocity * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime);
     }
 }

@@ -2,21 +2,20 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public float maxHealth = 100f;
+    [Tooltip("Maximum hit points")] public float maxHealth = 100f;
 
-    private float hp;
-
+    private float current;
     public System.Action OnDeath;
 
-    void Awake()
+    private void Awake()
     {
-        hp = maxHealth;
+        current = maxHealth;
     }
 
-    public void TakeDamage(float dmg)
+    public void TakeDamage(float amount)
     {
-        hp -= dmg;
-        if (hp <= 0f)
+        current -= amount;
+        if (current <= 0f)
         {
             OnDeath?.Invoke();
             Destroy(gameObject);
